@@ -98,7 +98,7 @@ InstallBrave (){
 
 InstallVSCode (){
     cd $INSTALL_DIR
-    wget "https://az764295.vo.msecnd.net/stable/30d9c6cd9483b2cc586687151bcbcd635f373630/code_1.68.1-1655263094_amd64.deb"
+    wget "https://az764295.vo.msecnd.net/stable/97dec172d3256f8ca4bfb2143f3f76b503ca0534/code_1.74.3-1673284829_amd64.deb"
     dpkg -i code*.deb
     rm -f *.deb
 }
