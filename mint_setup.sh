@@ -1,26 +1,29 @@
 #!/bin/bash
 
-# Ensure sudo privilages
-if [ ! $EUID -eq 0 ];then 
-    echo "  Error: Please run this script with sudo privileges";
-    exit 1
-fi
-
 # Global variables
 INSTALL_DIR="/tmp"
 CONTINUE=1
+# Colors
+RED="\e[1;31m"
+RST="\e[0m"
+
+# Ensure sudo privilages
+if [ ! $EUID -eq 0 ];then 
+    echo -e "  ${RED}Error${RST}: Please run this script with ${RED}sudo${RST} privileges";
+    exit 1
+fi
 
 clear
 cat << \EOF
 
-  ###############################
-  #                             #
-  #     WELCOME TO MINT SETUP   #
-  #                             #
-  # Author: Naum Ivanovski      #
-  # Version: 1.0                #
-  #                             #
-  ###############################
+  +------------------------------+
+  |                              |
+  |     WELCOME TO MINT SETUP    |
+  |                              |
+  | Author: Naum Ivanovski       |
+  | Version: 1.02                |
+  |                              |
+  +------------------------------+
 
 EOF
 
@@ -39,39 +42,27 @@ Menu (){
     echo "   9) Remove package  (provide package name, or multiple packages separated by space)."
     echo "   10) Remove junk from Linux Mint."
     echo "   11) Optimize Battery Life packages (Laptop Only)."
+    echo "   12) Install Wine + Winetricks + Setup (For Games)."
     echo "   r) Reboot system."
     echo "   q) Quit."
     echo ""
     read -p "Your Option: " OPTION;
     case $OPTION in
-        1) UpdateAndUpgrade
-        ;;
-        2) InstallEssentials
-        ;;
-        3) InstallBrave
-        ;;
-        4) InstallVSCode
-        ;;
-        5) InstallONLYOffice
-        ;;
-        6) InstallVLC
-        ;;
-        7) InstallQEMUKVM
-        ;;
-        8) InstallPackage
-        ;;
-        9) RemovePackage
-        ;;
-        10) ClearJunk
-        ;;
-        11) OptimizeBattery
-        ;;
-        r) reboot
-        ;;
-        q) CONTINUE=0
-        ;;
-        *) clear
-        ;;
+        1) UpdateAndUpgrade ;;
+        2) InstallEssentials ;;
+        3) InstallBrave ;;
+        4) InstallVSCode ;;
+        5) InstallONLYOffice ;;
+        6) InstallVLC ;;
+        7) InstallQEMUKVM ;;
+        8) InstallPackage ;;
+        9) RemovePackage ;;
+        10) ClearJunk ;;
+        11) OptimizeBattery ;;
+        12) WineSetup ;;
+        r) reboot ;;
+        q) CONTINUE=0 ;;
+        *) clear ;;
     esac
 }
 
@@ -134,12 +125,20 @@ ClearJunk (){
      apt remove firefox* thunderbird* xed hexchat* drawing webapp-manager celluloid rhythmbox* hypnotix && apt autoremove -y
 }
 
+WineSetup (){
+    apt install wine-installer winetricks -y
+    # Setup Wine Bottle after install
+    # UID 1000 is my user by default
+    sudo -u \#1000 winetricks dlls d3dx9 cnc_ddraw  
+    sudo -u \#1000 winetricks fonts arial tahoma
+}
+
 # START MENU
 while [ $CONTINUE ]
 do
     Menu
     if [ $CONTINUE -eq 0 ];then
-        echo "Goodbye";
+        echo "Goodbye.";
         break
     fi
 done
