@@ -35,16 +35,14 @@ Menu (){
     echo ""
     echo "Choose from the options: "
     echo "   1) Update and upgrade system packages."
-    echo "   2) Install essential packages (wget,git,curl,ttf-mscorefonts-installer,keepass2)."
+    echo "   2) Install essential packages (wget,git,curl,ttf-mscorefonts-installer,keepass2,VLC,GIMP)."
     echo "   3) Install Brave Browser."
     echo "   4) Install Visual Studio Code."
     echo "   5) Install ONLYOFFICE."
-    echo "   6) Install VLC media player."
-    echo "   7) Install Virtmanager/QEMU/KVM."
-    echo "   8) Install GIMP2 (Free Photoshop)."
-    echo "   9) Remove junk from Linux Mint."
-    echo "   10) Optimize Battery Life packages (Laptop Only)."
-    echo "   11) Wine Setup (For Games)."
+    echo "   6) Install Virtmanager/QEMU/KVM."
+    echo "   7) Remove junk from Linux Mint."
+    echo "   8) Optimize Battery Life packages (Laptop Only)."
+    echo "   9) Wine Setup (For Games)."
     echo "   r) Restart."
     echo "   q) Quit."
     echo ""
@@ -55,12 +53,10 @@ Menu (){
         3) InstallBrave ;;
         4) InstallVSCode ;;
         5) InstallONLYOffice ;;
-        6) InstallVLC ;;
-        7) InstallQEMUKVM ;;
-        8) InstallGIMP ;;
-        9) ClearJunk ;;
-        10) OptimizeBattery ;;
-        11) WineSetup ;;
+        6) InstallQEMUKVM ;;
+        7) ClearJunk ;;
+        8) OptimizeBattery ;;
+        9) WineSetup ;;
         r) reboot ;;
         q) CONTINUE=0 ;;
         *) clear ;;
@@ -69,15 +65,11 @@ Menu (){
 
 # Menu Functions
 UpdateAndUpgrade (){
-    apt update && apt upgrade -y
+    apt update -y && apt upgrade -y
 }
 
 InstallEssentials (){
-    apt install curl wget git ttf-mscorefonts-installer keepass2 -y
-}
-
-InstallVLC (){
-    apt install vlc -y
+    apt install curl wget git ttf-mscorefonts-installer keepass2 vlc gimp -y
 }
 
 InstallBrave (){
@@ -108,10 +100,6 @@ InstallQEMUKVM (){
     apt install qemu-kvm libvirt-clients libvirt-daemon-system bridge-utils virtinst libvirt-daemon virt-manager -y
     MYUSER=$(grep "1000:" /etc/passwd | awk -F : '{print $1}')
     adduser $MYUSER libvirt && adduser $MYUSER libvirt-qemu
-}
-
-InstallGIMP (){
-    apt install gimp -y
 }
 
 OptimizeBattery (){
