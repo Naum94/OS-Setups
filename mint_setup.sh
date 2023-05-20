@@ -24,7 +24,7 @@ cat << \EOF
   |     WELCOME TO MINT SETUP    |
   |                              |
   | Author: Naum Ivanovski       |
-  | Version: 1.03                |
+  | Version: 1.04                |
   |                              |
   +------------------------------+
 
@@ -35,7 +35,7 @@ Menu (){
     echo ""
     echo "Choose from the options: "
     echo "   1) Update and upgrade system packages."
-    echo "   2) Install essential packages (wget,git,curl,ttf-mscorefonts-installer,keepass2,VLC,GIMP)."
+    echo "   2) Install essential packages (wget,git,curl,ttf-mscorefonts-installer,keepassxc,VLC,GIMP)."
     echo "   3) Install Brave Browser."
     echo "   4) Install Visual Studio Code."
     echo "   5) Install ONLYOFFICE."
@@ -69,7 +69,7 @@ UpdateAndUpgrade (){
 }
 
 InstallEssentials (){
-    apt install curl wget git ttf-mscorefonts-installer keepass2 vlc gimp -y
+    apt install curl wget git ttf-mscorefonts-installer keepassxc vlc gimp -y
 }
 
 InstallBrave (){
@@ -82,7 +82,7 @@ InstallBrave (){
 
 InstallVSCode (){
     cd $INSTALL_DIR
-    wget "https://az764295.vo.msecnd.net/stable/97dec172d3256f8ca4bfb2143f3f76b503ca0534/code_1.74.3-1673284829_amd64.deb"
+    wget "https://az764295.vo.msecnd.net/stable/b3e4e68a0bc097f0ae7907b217c1119af9e03435/code_1.78.2-1683731010_amd64.deb"
     dpkg -i code*.deb
     rm -f *.deb
 }
