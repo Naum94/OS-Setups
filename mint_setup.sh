@@ -35,14 +35,15 @@ Menu (){
     echo ""
     echo "Choose from the options: "
     echo "   1) Update and upgrade system packages."
-    echo "   2) Install essential packages (wget,git,curl,ttf-mscorefonts-installer,keepassxc,VLC,GIMP)."
+    echo "   2) Install essential packages (wget,git,curl,ttf-mscorefonts-installer,keepassxc,remmina,VLC,GIMP)."
     echo "   3) Install Brave Browser."
     echo "   4) Install Visual Studio Code."
     echo "   5) Install ONLYOFFICE."
-    echo "   6) Install Virtmanager/QEMU/KVM."
-    echo "   7) Remove junk from Linux Mint."
-    echo "   8) Optimize Battery Life packages (Laptop Only)."
-    echo "   9) Wine Setup (For Games)."
+    echo "   6) Install Viber."
+    echo "   7) Install Virtmanager/QEMU/KVM."
+    echo "   8) Remove junk from Linux Mint."
+    echo "   9) Optimize Battery Life packages (Laptop Only)."
+    echo "   10) Wine Setup (For Games)."
     echo "   r) Restart."
     echo "   q) Quit."
     echo ""
@@ -53,10 +54,11 @@ Menu (){
         3) InstallBrave ;;
         4) InstallVSCode ;;
         5) InstallONLYOffice ;;
-        6) InstallQEMUKVM ;;
-        7) ClearJunk ;;
-        8) OptimizeBattery ;;
-        9) WineSetup ;;
+        6) InstallViber ;;
+        7) InstallQEMUKVM ;;
+        8) ClearJunk ;;
+        9) OptimizeBattery ;;
+        10) WineSetup ;;
         r) reboot ;;
         q) CONTINUE=0 ;;
         *) clear ;;
@@ -69,7 +71,7 @@ UpdateAndUpgrade (){
 }
 
 InstallEssentials (){
-    apt install curl wget git ttf-mscorefonts-installer keepassxc vlc gimp -y
+    apt install curl wget git ttf-mscorefonts-installer keepassxc vlc gimp remmina -y
 }
 
 InstallBrave (){
@@ -84,6 +86,13 @@ InstallVSCode (){
     cd $INSTALL_DIR
     wget "https://az764295.vo.msecnd.net/stable/b3e4e68a0bc097f0ae7907b217c1119af9e03435/code_1.78.2-1683731010_amd64.deb"
     dpkg -i code*.deb
+    rm -f *.deb
+}
+
+InstallViber (){
+    cd $INSTALL_DIR
+    wget "https://download.cdn.viber.com/cdn/desktop/Linux/viber.deb"
+    dpkg -i viber.deb
     rm -f *.deb
 }
 
