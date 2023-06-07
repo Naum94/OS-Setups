@@ -107,7 +107,9 @@ InstallCisco (){
     cd $INSTALL_DIR
     wget "https://vpn.nic.in/resources/software/anyconnect-linux64-4.10.01075-k9.tar.gz"
     tar -xzvf anyconnect*.gz
-    bash anyconnect-linux64-4.10.01075/vpn/vpn_install.sh
+    cd anyconnect-linux64-4.10.01075/vpn/
+    bash vpn_install.sh
+    cd $INSTALL_DIR
     rm -Rf anyconnect*
 }
 
