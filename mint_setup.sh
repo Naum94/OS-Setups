@@ -24,8 +24,6 @@ cat << \EOF
   |     WELCOME TO MINT SETUP    |
   |                              |
   | Author: Naum Ivanovski       |
-  | Version: 1.04                |
-  |                              |
   +------------------------------+
 
 EOF
@@ -43,7 +41,10 @@ Menu (){
     echo "   7) Install Virtmanager/QEMU/KVM."
     echo "   8) Remove junk from Linux Mint."
     echo "   9) Optimize Battery Life packages (Laptop Only)."
-    echo "   10) Wine Setup (For Games)."
+    echo "   10) Install AnyDesk."
+    echo "   11) Install Cisco Any Connect."
+    echo "   12) Wine Setup Menu (For Games)."
+    echo "   all) Install 1 - 8."
     echo "   r) Restart."
     echo "   q) Quit."
     echo ""
@@ -58,7 +59,19 @@ Menu (){
         7) InstallQEMUKVM ;;
         8) ClearJunk ;;
         9) OptimizeBattery ;;
-        10) WineSetup ;;
+        10) InstallAnyDesk ;;
+        11) InstallCisco ;;
+        12) WineSetup ;;
+        all) 
+            UpdateAndUpgrade
+            InstallEssentials
+            InstallBrave
+            InstallVSCode
+            InstallONLYOffice
+            InstallViber
+            InstallQEMUKVM
+            ClearJunk
+            ;;
         r) reboot ;;
         q) CONTINUE=0 ;;
         *) clear ;;
@@ -74,12 +87,28 @@ InstallEssentials (){
     apt install curl wget git ttf-mscorefonts-installer keepassxc vlc gimp remmina -y
 }
 
+InstallAnyDesk (){
+    apt install libgtkglext1 -y
+    cd $INSTALL_DIR
+    wget "https://download.anydesk.com/linux/anydesk_6.2.1-1_amd64.deb"
+    dpkg -i anydesk*.deb
+    rm -f *.deb
+}
+
 InstallBrave (){
     apt install apt-transport-https curl -y
     curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
     echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-release.list
     apt update -y
     apt install brave-browser -y
+}
+
+InstallCisco (){
+    cd $INSTALL_DIR
+    wget "https://vpn.nic.in/resources/software/anyconnect-linux64-4.10.01075-k9.tar.gz"
+    tar -xzvf anyconnect*.gz
+    bash anyconnect-linux64-4.10.01075/vpn/vpn_install.sh
+    rm -Rf anyconnect*
 }
 
 InstallVSCode (){
