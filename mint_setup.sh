@@ -33,7 +33,7 @@ Menu (){
     echo ""
     echo "Choose from the options: "
     echo "   1) Update and upgrade system packages."
-    echo "   2) Install essential packages (wget,git,curl,ttf-mscorefonts-installer,keepassxc,remmina,VLC,GIMP)."
+    echo "   2) Install essential packages (wget,git,curl,ttf-mscorefonts-installer,keepassxc,remmina,VLC,GIMP,adb)."
     echo "   3) Install Brave Browser."
     echo "   4) Install Visual Studio Code."
     echo "   5) Install ONLYOFFICE."
@@ -84,13 +84,13 @@ UpdateAndUpgrade (){
 }
 
 InstallEssentials (){
-    apt install curl wget git ttf-mscorefonts-installer keepassxc vlc gimp remmina -y
+    apt install curl wget git ttf-mscorefonts-installer keepassxc vlc gimp remmina adb -y
 }
 
 InstallAnyDesk (){
     apt install libgtkglext1 -y
     cd $INSTALL_DIR
-    wget "https://download.anydesk.com/linux/anydesk_6.2.1-1_amd64.deb"
+    wget "https://download.anydesk.com/linux/anydesk_6.3.0-1_amd64.deb"
     dpkg -i anydesk*.deb
     rm -f *.deb
 }
@@ -115,7 +115,7 @@ InstallCisco (){
 
 InstallVSCode (){
     cd $INSTALL_DIR
-    wget "https://az764295.vo.msecnd.net/stable/b3e4e68a0bc097f0ae7907b217c1119af9e03435/code_1.78.2-1683731010_amd64.deb"
+    wget "https://az764295.vo.msecnd.net/stable/f1b07bd25dfad64b0167beb15359ae573aecd2cc/code_1.83.1-1696982868_amd64.deb"
     dpkg -i code*.deb
     rm -f *.deb
 }
