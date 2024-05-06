@@ -4,8 +4,6 @@
 INSTALL_DIR="/tmp"
 CONTINUE=1
 
-# WineMenu Handling
-
 # Colors
 RED="\e[1;31m"
 RST="\e[0m"
@@ -16,38 +14,39 @@ if [ ! $EUID -eq 0 ];then
     exit 1
 fi
 
-clear
-cat << \EOF
-
-  +------------------------------+
-  |                              |
-  |     WELCOME TO MINT SETUP    |
-  |                              |
-  | Author: Naum Ivanovski       |
-  +------------------------------+
+# Create Menu from which to select
+Menu (){
+    clear
+    cat << \EOF
+    +-----------------------------------------------------------+
+    |     __  __       _                                        |
+    |    |  \/  | __ _(_)_ __    _ __ ___   ___ _ __  _   _     |
+    |    | |\/| |/ _` | | '_ \  | '_ ` _ \ / _ \ '_ \| | | |    |
+    |    | |  | | (_| | | | | | | | | | | |  __/ | | | |_| |    |
+    |    |_|  |_|\__,_|_|_| |_| |_| |_| |_|\___|_| |_|\__,_|    |
+    |                                                           |
+    |   Author: Naum Ivanovski                                  |
+    +-----------------------------------------------------------+                                                 
+    
+    Choose from the options:
+        1)   Update and upgrade system packages.
+        2)   Install essential packages (wget,git,curl,ttf-mscorefonts-installer,keepassxc,remmina,VLC,GIMP,adb).
+        3)   Install Brave Browser.
+        4)   Install Visual Studio Code.
+        5)   Install ONLYOFFICE.
+        6)   Install Viber.
+        7)   Install Virtmanager/QEMU/KVM.
+        8)   Remove junk from Linux Mint.
+        9)   Optimize Battery Life packages (Laptop Only).
+        10)  Install AnyDesk.
+        11)  Install Cisco Any Connect.
+        12)  Wine Setup Menu (For Games).
+        all) Install 1 - 8.
+        r)   Restart.
+        q)   Quit.
 
 EOF
 
-# Create Menu from which to select
-Menu (){
-    echo ""
-    echo "Choose from the options: "
-    echo "   1) Update and upgrade system packages."
-    echo "   2) Install essential packages (wget,git,curl,ttf-mscorefonts-installer,keepassxc,remmina,VLC,GIMP,adb)."
-    echo "   3) Install Brave Browser."
-    echo "   4) Install Visual Studio Code."
-    echo "   5) Install ONLYOFFICE."
-    echo "   6) Install Viber."
-    echo "   7) Install Virtmanager/QEMU/KVM."
-    echo "   8) Remove junk from Linux Mint."
-    echo "   9) Optimize Battery Life packages (Laptop Only)."
-    echo "   10) Install AnyDesk."
-    echo "   11) Install Cisco Any Connect."
-    echo "   12) Wine Setup Menu (For Games)."
-    echo "   all) Install 1 - 8."
-    echo "   r) Restart."
-    echo "   q) Quit."
-    echo ""
     read -p "Your Option: " OPTION;
     case $OPTION in
         1) UpdateAndUpgrade ;;
@@ -90,9 +89,9 @@ InstallEssentials (){
 InstallAnyDesk (){
     apt install libgtkglext1 -y
     cd $INSTALL_DIR
-    wget "https://download.anydesk.com/linux/anydesk_6.3.0-1_amd64.deb"
-    dpkg -i anydesk*.deb
-    rm -f *.deb
+    wget -O anydesk.deb "https://download.anydesk.com/linux/anydesk_6.3.2-1_amd64.deb"
+    dpkg -i anydesk.deb
+    rm -f anydesk.deb
 }
 
 InstallBrave (){
@@ -105,19 +104,19 @@ InstallBrave (){
 
 InstallCisco (){
     cd $INSTALL_DIR
-    wget "https://vpn.nic.in/resources/software/anyconnect-linux64-4.10.01075-k9.tar.gz"
-    tar -xzvf anyconnect*.gz
-    cd anyconnect-linux64-4.10.01075/vpn/
+    wget -O anyconnect.tar.gz "https://vpn.nic.in/resources/software/anyconnect-linux64-4.10.01075-k9.tar.gz"
+    tar -xzvf anyconnect.tar.gz
+    cd anyconnect/vpn/
     bash vpn_install.sh
     cd $INSTALL_DIR
-    rm -Rf anyconnect*
+    rm -Rf anyconnect
 }
 
 InstallVSCode (){
     cd $INSTALL_DIR
-    wget "https://az764295.vo.msecnd.net/stable/f1b07bd25dfad64b0167beb15359ae573aecd2cc/code_1.83.1-1696982868_amd64.deb"
-    dpkg -i code*.deb
-    rm -f *.deb
+    wget -O code.deb "https://vscode.download.prss.microsoft.com/dbazure/download/stable/b58957e67ee1e712cebf466b995adf4c5307b2bd/code_1.89.0-1714530869_amd64.deb"
+    dpkg -i code.deb
+    rm -f code.deb
 }
 
 InstallViber (){
@@ -131,9 +130,9 @@ InstallONLYOffice (){
     # Install dependencies for ONLYOFFCE
     apt install fonts-crosextra-carlito fonts-dejavu fonts-dejavu-extra gconf-service gconf-service-backend gconf2-common libgconf-2-4 -y
     cd $INSTALL_DIR
-    wget "https://download.onlyoffice.com/install/desktop/editors/linux/onlyoffice-desktopeditors_amd64.deb"
-    dpkg -i onlyoffice*.deb
-    rm -f *.deb
+    wget -O onlyoffice.deb "https://download.onlyoffice.com/install/desktop/editors/linux/onlyoffice-desktopeditors_amd64.deb"
+    dpkg -i onlyoffice.deb
+    rm -f onlyoffice.deb
 }
 
 InstallQEMUKVM (){
@@ -191,16 +190,24 @@ WineSetup (){
 
 WineMenu (){
     clear
-    echo "+----------+";
-    echo "|Wine Setup|";
-    echo "+----------+";
-    echo "";
-    echo "1) Install Wine + Winetricks.";
-    echo "2) Create Win32 Prefix Bottle. (Click Cancel)";
-    echo "3) Install DirectX 9.";
-    echo "4) Setup for Red Alert 2.";
-    echo "b) Back.";
-    echo "";
+    cat << \EOF
+        +-----------------------------------------------------------+
+        |   __        ___              ____       _                 |
+        |   \ \      / (_)_ __   ___  / ___|  ___| |_ _   _ _ __    |
+        |    \ \ /\ / /| | '_ \ / _ \ \___ \ / _ \ __| | | | '_ \   |
+        |     \ V  V / | | | | |  __/  ___) |  __/ |_| |_| | |_) |  |
+        |      \_/\_/  |_|_| |_|\___| |____/ \___|\__|\__,_| .__/   |
+        |                                                  |_|      |
+        +-----------------------------------------------------------+
+
+    Choose from the options:
+        1) Install Wine + Winetricks.
+        2) Create Win32 Prefix Bottle. (Click Cancel)
+        3) Install DirectX 9.
+        4) Setup for Red Alert 2.
+        b) Back.
+EOF
+
     read -p "Your option: " WINEOPTION;
     case $WINEOPTION in
         1) InstallWine ;;
