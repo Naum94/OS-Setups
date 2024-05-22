@@ -30,18 +30,14 @@ Menu (){
     
     Choose from the options:
         1)   Update and upgrade system packages.
-        2)   Install essential packages (wget,git,curl,ttf-mscorefonts-installer,keepassxc,remmina,VLC,GIMP,adb).
-        3)   Install Brave Browser.
-        4)   Install Visual Studio Code.
-        5)   Install ONLYOFFICE.
-        6)   Install Viber.
-        7)   Install Virtmanager/QEMU/KVM.
-        8)   Remove junk from Linux Mint.
-        9)   Optimize Battery Life packages (Laptop Only).
-        10)  Install AnyDesk.
-        11)  Install Cisco Any Connect.
-        12)  Wine Setup Menu (For Games).
-        all) Install 1 - 8.
+        2)   Install essential packages (wget, git, curl, ttf-mscorefonts-installer, VLC, GIMP, adb).
+        3)   Flatpak install (Brave Browser, Visual Studio Code, ONLYOFFICE, KeePassXC, Viber)
+        4)   Install Virtmanager/QEMU/KVM.
+        5)   Remove junk from Linux Mint.
+        6)   Optimize Battery Life packages (Laptop Only).
+        7)   IT support utilities.
+        8)   Wine Setup Menu (For Games).
+        all) Install 1 - 5.
         r)   Restart.
         q)   Quit.
 
@@ -51,23 +47,16 @@ EOF
     case $OPTION in
         1) UpdateAndUpgrade ;;
         2) InstallEssentials ;;
-        3) InstallBrave ;;
-        4) InstallVSCode ;;
-        5) InstallONLYOffice ;;
-        6) InstallViber ;;
-        7) InstallQEMUKVM ;;
-        8) ClearJunk ;;
-        9) OptimizeBattery ;;
-        10) InstallAnyDesk ;;
-        11) InstallCisco ;;
-        12) WineSetup ;;
+        3) FlatpakInstall ;;
+        4) InstallQEMUKVM ;;
+        5) ClearJunk ;;
+        6) OptimizeBattery ;;
+        7) ITMenuSetup ;;
+        8) WineSetup ;;
         all) 
             UpdateAndUpgrade
             InstallEssentials
-            InstallBrave
-            InstallVSCode
-            InstallONLYOffice
-            InstallViber
+            FlatpakInstall
             InstallQEMUKVM
             ClearJunk
             ;;
@@ -77,63 +66,26 @@ EOF
     esac
 }
 
-# Menu Functions
+#######################
+# Main Menu Functions #
+#######################
+
 UpdateAndUpgrade (){
     apt update -y && apt upgrade -y
 }
 
 InstallEssentials (){
-    apt install curl wget git ttf-mscorefonts-installer keepassxc vlc gimp remmina adb -y
+    apt install curl wget git ttf-mscorefonts-installer vlc gimp adb -y
 }
 
-InstallAnyDesk (){
-    apt install libgtkglext1 -y
-    cd $INSTALL_DIR
-    wget -O anydesk.deb "https://download.anydesk.com/linux/anydesk_6.3.2-1_amd64.deb"
-    dpkg -i anydesk.deb
-    rm -f anydesk.deb
+FlatpakInstall (){
+    flatpak install com.brave.Browser -y --noninteractive
+    flatpak install com.visualstudio.code -y --noninteractive
+    flatpak install org.onlyoffice.desktopeditors -y --noninteractive
+    flatpak install org.keepassxc.KeePassXC -y --noninteractive
+    flatpak install com.viber.Viber -y --noninteractive
 }
 
-InstallBrave (){
-    apt install apt-transport-https curl -y
-    curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
-    echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-release.list
-    apt update -y
-    apt install brave-browser -y
-}
-
-InstallCisco (){
-    cd $INSTALL_DIR
-    wget -O anyconnect.tar.gz "https://vpn.nic.in/resources/software/anyconnect-linux64-4.10.01075-k9.tar.gz"
-    tar -xzvf anyconnect.tar.gz
-    cd anyconnect/vpn/
-    bash vpn_install.sh
-    cd $INSTALL_DIR
-    rm -Rf anyconnect
-}
-
-InstallVSCode (){
-    cd $INSTALL_DIR
-    wget -O code.deb "https://vscode.download.prss.microsoft.com/dbazure/download/stable/b58957e67ee1e712cebf466b995adf4c5307b2bd/code_1.89.0-1714530869_amd64.deb"
-    dpkg -i code.deb
-    rm -f code.deb
-}
-
-InstallViber (){
-    cd $INSTALL_DIR
-    wget "https://download.cdn.viber.com/cdn/desktop/Linux/viber.deb"
-    dpkg -i viber.deb
-    rm -f *.deb
-}
-
-InstallONLYOffice (){
-    # Install dependencies for ONLYOFFCE
-    apt install fonts-crosextra-carlito fonts-dejavu fonts-dejavu-extra gconf-service gconf-service-backend gconf2-common libgconf-2-4 -y
-    cd $INSTALL_DIR
-    wget -O onlyoffice.deb "https://download.onlyoffice.com/install/desktop/editors/linux/onlyoffice-desktopeditors_amd64.deb"
-    dpkg -i onlyoffice.deb
-    rm -f onlyoffice.deb
-}
 
 InstallQEMUKVM (){
     apt install qemu-kvm libvirt-clients libvirt-daemon-system bridge-utils virtinst libvirt-daemon virt-manager -y
@@ -149,7 +101,10 @@ ClearJunk (){
      apt remove firefox* thunderbird* xed hexchat* drawing webapp-manager celluloid rhythmbox* hypnotix && apt autoremove -y
 }
 
-# Wine Related
+################
+# Wine Related #
+################
+
 WineOn (){
     WINELOOP=1;
     return $WINELOOP;
@@ -219,7 +174,89 @@ EOF
     esac   
 }
 
-# START MENU
+#######################
+# IT support utilites #
+#######################
+
+ITMenuOn (){
+    ITMLOOP=1;
+    return $ITMLOOP;
+}
+
+ITMenuOff (){
+    ITMLOOP=0;
+    return $ITMLOOP;
+}
+
+ITMenuSetup (){
+    # Initialize IT Support Menu 
+    ITMenuOn
+    while [ $ITMLOOP ]
+    do
+        ITMenu
+        if [ $ITMLOOP -eq 0 ];then
+        break
+        fi
+    done
+}
+
+ITMenu (){
+    clear
+    cat << \EOF
+        +-----------------------------------------------+
+        |     ___ _____   ____       _                  |
+        |    |_ _|_   _| / ___|  ___| |_ _   _ _ __     |
+        |     | |  | |   \___ \ / _ \ __| | | | '_ \    |
+        |     | |  | |    ___) |  __/ |_| |_| | |_) |   |
+        |    |___| |_|   |____/ \___|\__|\__,_| .__/    |
+        |                                      |_|      |
+        +-----------------------------------------------+
+
+    Choose from the options:
+        all) Install 1 - 3.
+        1)   Install AnyDesk (flatpak).
+        2)   Install Remmina (flatpak).
+        3)   Install Cisco Anyconnect.
+        b)   Back.
+EOF
+
+    read -p "Your option: " ITMOPTION;
+    case $ITMOPTION in
+        all) 
+            InstallAnyDesk
+            InstallRemmina
+            InstallCisco
+            ;;
+        1) InstallAnyDesk ;;
+        2) InstallRemmina ;;
+        3) InstallCisco ;;
+        b) ITMenuOff ;;
+        *) ;;
+    esac  
+}
+
+InstallAnyDesk (){
+    flatpak install com.anydesk.Anydesk -y --noninteractive
+}
+
+InstallRemmina (){
+    flatpak install org.remmina.Remmina -y --noninteractive
+}
+
+InstallCisco (){
+    cd $INSTALL_DIR
+    wget -O anyconnect.tar.gz "https://vpn.nic.in/resources/software/anyconnect-linux64-4.10.01075-k9.tar.gz"
+    tar -xzvf anyconnect.tar.gz
+    cd anyconnect/vpn/
+    bash vpn_install.sh
+    cd $INSTALL_DIR
+    rm -Rf anyconnect
+}
+
+
+
+### START MENU ###
+
 while [ $CONTINUE ]
 do
     Menu
